@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:thekaamwale/Clients/Client_Profile_Exists.dart';
 import 'package:thekaamwale/Clients/Client_ScreenShow.dart';
@@ -115,7 +117,7 @@ Future<void> _saveDataToFirestore(BuildContext context) async {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Image.asset('assets/images/success.gif',height: 50,width: 50,),
-          content: const Text('D A T A  U P D A T E  S U C C E S S F U L L Y'),
+          content: const Text('**UPDATE SUCCESSFULLY**',textAlign: TextAlign.center,),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -150,12 +152,35 @@ Future<void> _saveDataToFirestore(BuildContext context) async {
   });
 }
 
+late final BannerAd bannerAd;
+final String adUnitId = "ca-app-pub-3940256099942544/6300978111";
+
 @override
 void initState() {
   super.initState();
 
   Future.delayed(const Duration(seconds: 1), () => showFillFormDialog(context));
+
+  bannerAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: adUnitId,
+      listener: bannerAdListener,
+      request: const AdRequest());
+
+  bannerAd.load(); //load ad here
 }
+final BannerAdListener bannerAdListener = BannerAdListener(
+  onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"Carefully!"),
+  onAdFailedToLoad: (Ad ad, LoadAdError error) {
+    ad.dispose();
+    Fluttertoast.showToast(msg:"Ad Failed to load: $error");
+  },
+  onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
+  onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
+  onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"IMP Note!"),
+);
+
+
 
 void showFillFormDialog(BuildContext context) {
   showDialog(
@@ -163,7 +188,7 @@ void showFillFormDialog(BuildContext context) {
     builder: (BuildContext context) {
       // Create alert dialog
       return AlertDialog(
-        title: const Text('Important: Filling the Form'),
+        title: const Text('*Important Note*',textAlign: TextAlign.center,),
         content: const SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
@@ -193,6 +218,9 @@ void showFillFormDialog(BuildContext context) {
 
   @override
   Widget build(BuildContext context) {
+
+    final AdWidget adwidget = AdWidget(ad: bannerAd);
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.85)),
       child: Scaffold(
@@ -223,329 +251,360 @@ void showFillFormDialog(BuildContext context) {
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.indigo, width: 1),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(100),
-                            ),
-                          ),
-                          child: ClipOval(
-                            child: pickedImage != null
-                                ? Image.file(
-                              pickedImage!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                                : Image.network(
-                              'https://imgs.search.brave.com/MWlI8P3aJROiUDO9A-LqFyca9kSRIxOtCg_Vf1xd9BA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE1Lzg0LzQz/LzM2MF9GXzIxNTg0/NDMyNV90dFg5WWlJ/SXllYVI3TmU2RWFM/TGpNQW15NEd2UEM2/OS5qcGc',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: -10,
-                          child: IconButton(
-                            onPressed: imagePickerOption,
-                            icon: const Icon(
-                              Icons.add_a_photo_outlined,
-                              color: Color(0xff2b3d4f),
-                              size: 30,
-                            ),
-                          ),
-                        )
-                      ],
+              child: PopScope(
+                canPop: false,
+                onPopInvoked: (bool didPop) async {
+                  if (didPop) {
+                    return;
+                  }
+                  if (context.mounted) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Client_ScreenShow(),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                        onPressed: imagePickerOption,
-                        icon: const Icon(Icons.add_a_photo_sharp),
-                        label: const Text('SELECT YOUR PHOTO'),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: const Color(0xff2b3d4f),
+                    );
+                  }
+                },
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.indigo, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(100),
+                              ),
+                            ),
+                            child: ClipOval(
+                              child: pickedImage != null
+                                  ? Image.file(
+                                pickedImage!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                                  : Image.network(
+                                'https://imgs.search.brave.com/MWlI8P3aJROiUDO9A-LqFyca9kSRIxOtCg_Vf1xd9BA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE1Lzg0LzQz/LzM2MF9GXzIxNTg0/NDMyNV90dFg5WWlJ/SXllYVI3TmU2RWFM/TGpNQW15NEd2UEM2/OS5qcGc',
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: -10,
+                            child: IconButton(
+                              onPressed: imagePickerOption,
+                              icon: const Icon(
+                                Icons.add_a_photo_outlined,
+                                color: Color(0xff2b3d4f),
+                                size: 30,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: TextFormField(
-                          controller: fullNameController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: 'Enter Your Full Name',
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your FullName Here";
-                            } else {
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: TextFormField(
-                          controller: mobileNoController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Enter Your Mobile Number',
-                            prefixIcon: const Icon(Icons.phone),
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            //_formKey.currentState?.validate();
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your Mobile Number Here";
-                            } else if (!RegExp(
-                                r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
-                                .hasMatch(value)) {
-                              return "Please Enter a Valid Mobile Number Here";
-                            } else {
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: TextFormField(
-                          controller: placeController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Enter Your Place(Address)',
-                            prefixIcon: const Icon(Icons.location_city_sharp),
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your Address Here ";
-                            } else {
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: TextFormField(
-                          controller: cityController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Enter Your City',
-                            prefixIcon: const Icon(Icons.pin_drop_outlined),
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your City Here";
-                            } else {
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: TextFormField(
-                          controller: stateController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Enter Your State',
-                            prefixIcon: const Icon(Icons.pin_drop_sharp),
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your State Here";
-                            } else {
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: TextFormField(
-                          controller: pinController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(6), // Limit input length to 6 characters
-                          ],
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Enter Your PinCode',
-                            prefixIcon: const Icon(Icons.pin_drop_outlined),
-                            enabled: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your PinCode Here";
-                            } else {
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          _submitForm();
-                        },
-                        icon: const Icon(Icons.save),
-                        label: const Text(
-                          'U P D A T E',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                          onPressed: imagePickerOption,
+                          icon: const Icon(Icons.add_a_photo_sharp),
+                          label: const Text('SELECT YOUR PHOTO'),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: const Color(0xff95a6a7), // Text color
+                          backgroundColor: const Color(0xff2b3d4f),
                         ),
                       ),
+                    ),
+                    const Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: TextFormField(
+                            controller: fullNameController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              prefixIcon: const Icon(Icons.person),
+                              hintText: 'Enter Your Full Name',
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Your FullName Here";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: TextFormField(
+                            controller: mobileNoController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Enter Your Mobile Number',
+                              prefixIcon: const Icon(Icons.phone),
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              //_formKey.currentState?.validate();
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Your Mobile Number Here";
+                              } else if (!RegExp(
+                                  r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                  .hasMatch(value)) {
+                                return "Please Enter a Valid Mobile Number Here";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: TextFormField(
+                            controller: placeController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Enter Your Place(Address)',
+                              prefixIcon: const Icon(Icons.location_city_sharp),
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Your Address Here ";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: TextFormField(
+                            controller: cityController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Enter Your City',
+                              prefixIcon: const Icon(Icons.pin_drop_outlined),
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Your City Here";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: TextFormField(
+                            controller: stateController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Enter Your State',
+                              prefixIcon: const Icon(Icons.pin_drop_sharp),
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Your State Here";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: TextFormField(
+                            controller: pinController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(6), // Limit input length to 6 characters
+                            ],
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Enter Your PinCode',
+                              prefixIcon: const Icon(Icons.pin_drop_outlined),
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter Your PinCode Here";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
 
-                    ],
-                  ),
-                  const SizedBox(
-                  height: 50,),
-                ],
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            _submitForm();
+                          },
+                          icon: const Icon(Icons.save),
+                          label: const Text(
+                            'U P D A T E',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: const Color(0xff95a6a7), // Text color
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    const SizedBox(
+                    height: 30,),
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 1,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff2b3d4f),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: SizedBox(
+                          height: bannerAd.size.height.toDouble(),
+                          width: bannerAd.size.width.toDouble(),
+                          child: adwidget,
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
               ),
             ),
           ),

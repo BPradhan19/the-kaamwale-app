@@ -6,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:thekaamwale/Clients/Client_Profile_Exists.dart';
 import 'package:thekaamwale/Clients/Client_ScreenShow.dart';
@@ -120,7 +122,7 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Image.asset('assets/images/success.gif',height: 50,width: 50,),
-            content: const Text('D A T A  S A V E D  S U C C E S S F U L L Y'),
+            content: const Text('**SUCCESSFULLY SAVE**',textAlign: TextAlign.center,),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -155,12 +157,36 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
     });
   }
 
+  late final BannerAd bannerAd;
+  final String adUnitId = "ca-app-pub-3940256099942544/6300978111";
+
   @override
   void initState() {
     super.initState();
 
     Future.delayed(const Duration(seconds: 1), () => showFillFormDialog(context));
+
+    bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: adUnitId,
+        listener: bannerAdListener,
+        request: const AdRequest());
+
+    bannerAd.load(); //load ad here
   }
+  final BannerAdListener bannerAdListener = BannerAdListener(
+    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"Registration"),
+    onAdFailedToLoad: (Ad ad, LoadAdError error) {
+      ad.dispose();
+      Fluttertoast.showToast(msg:"Ad Failed to load: $error");
+    },
+    onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
+    onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
+    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"Careful!"),
+  );
+
+
+
 
   void showFillFormDialog(BuildContext context) {
     showDialog(
@@ -168,7 +194,7 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
       builder: (BuildContext context) {
         // Create alert dialog
         return AlertDialog(
-          title: const Text('Important: Filling the Form'),
+          title: const Text('*Important Note*',textAlign: TextAlign.center,),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -199,6 +225,9 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
 
   @override
   Widget build(BuildContext context) {
+
+    final AdWidget adwidget = AdWidget(ad: bannerAd);
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.85)),
       child: Scaffold(
@@ -229,77 +258,88 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.indigo, width: 1),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(100),
-                            ),
-                          ),
-                          child: ClipOval(
-                            child: pickedImage != null
-                                ? Image.file(
-                              pickedImage!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                                : Image.network(
-                              'https://imgs.search.brave.com/MWlI8P3aJROiUDO9A-LqFyca9kSRIxOtCg_Vf1xd9BA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE1Lzg0LzQz/LzM2MF9GXzIxNTg0/NDMyNV90dFg5WWlJ/SXllYVI3TmU2RWFM/TGpNQW15NEd2UEM2/OS5qcGc',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: -10,
-                          child: IconButton(
-                            onPressed: imagePickerOption,
-                            icon: const Icon(
-                              Icons.add_a_photo_outlined,
-                              color: Color(0xff2b3d4f),
-                              size: 30,
-                            ),
-                          ),
-                        )
-                      ],
+              child: PopScope(
+                canPop: false,
+                onPopInvoked: (bool didPop) async {
+                  if (didPop) {
+                    return;
+                  }
+                  if (context.mounted) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Client_ScreenShow(),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                        onPressed: imagePickerOption,
-                        icon: const Icon(Icons.add_a_photo_sharp),
-                        label: const Text('SELECT YOUR PHOTO'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color(0xff2b3d4f), // Text color
-                         ),
+                    );
+                  }
+                },
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
                     ),
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    Align(
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.indigo, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(100),
+                              ),
+                            ),
+                            child: ClipOval(
+                              child: pickedImage != null
+                                  ? Image.file(
+                                pickedImage!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                                  : Image.network(
+                                'https://imgs.search.brave.com/MWlI8P3aJROiUDO9A-LqFyca9kSRIxOtCg_Vf1xd9BA/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE1Lzg0LzQz/LzM2MF9GXzIxNTg0/NDMyNV90dFg5WWlJ/SXllYVI3TmU2RWFM/TGpNQW15NEd2UEM2/OS5qcGc',
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: -10,
+                            child: IconButton(
+                              onPressed: imagePickerOption,
+                              icon: const Icon(
+                                Icons.add_a_photo_outlined,
+                                color: Color(0xff2b3d4f),
+                                size: 30,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                          onPressed: imagePickerOption,
+                          icon: const Icon(Icons.add_a_photo_sharp),
+                          label: const Text('SELECT YOUR PHOTO'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: const Color(0xff2b3d4f), // Text color
+                           ),
+                      ),
+                    ),
+                    const Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: fullNameController,
                           decoration: InputDecoration(
@@ -328,13 +368,11 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                             }
                           }),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: mobileNoController,
                           keyboardType: TextInputType.phone,
@@ -370,13 +408,11 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                             }
                           }),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: placeController,
                           decoration: InputDecoration(
@@ -405,13 +441,11 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                             }
                           }),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: cityController,
                           decoration: InputDecoration(
@@ -440,13 +474,11 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                             }
                           }),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: stateController,
                           decoration: InputDecoration(
@@ -475,13 +507,11 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                             }
                           }),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: pinController,
                           keyboardType: TextInputType.number,
@@ -514,46 +544,64 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                             }
                           }),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Divider(
-                    height: 10,
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            _submitForm();
-                          },
-                          icon: const Icon(Icons.save),
-                          label: const Text(
-                            'S A V E  P R O F I L E',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: const Color(0xff95a6a7), // Text color
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              _submitForm();
+                            },
+                            icon: const Icon(Icons.save),
+                            label: const Text(
+                              'S A V E  P R O F I L E',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: const Color(0xff95a6a7), // Text color
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 1,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff2b3d4f),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: SizedBox(
+                          height: bannerAd.size.height.toDouble(),
+                          width: bannerAd.size.width.toDouble(),
+                          child: adwidget,
+                        ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                ],
+                    ),
+
+                  ],
+                ),
               ),
             ),
           ),

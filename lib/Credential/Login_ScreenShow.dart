@@ -58,7 +58,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
     var options = {
       'key': 'rzp_test_3MjLOTBB8eEKSL',
       'amount': 9900, // Amount in paisa (10000 paisa = ₹100)
-      'name': 'hello world',
+      'name': 'THE KAAMWALE',
       'description': 'Registration Fee',
       'prefill': {'contact': '', 'email': ''},
       'external': {
@@ -69,7 +69,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      print('Error during Razorpay payment: $e');
+      Fluttertoast.showToast(msg:'Error during Razorpay payment No Internet: $e');
     }
   }
 
@@ -95,7 +95,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
       Navigator.of(context).popUntil((route) => route.isFirst);
     } catch (error) {
       // Handle error
-      print('Error updating validity date: $error');
+      Fluttertoast.showToast(msg: 'Please Try Again: $error');
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -145,7 +145,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width * 1,
               height: MediaQuery.of(context).size.height * 1,
               decoration: const BoxDecoration(
                 /*image: DecorationImage(
@@ -167,9 +167,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
                         children: [
                           Image.asset('assets/images/aikaamwale.png',
                               height: 250, width: 250),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
 
                           Container(
                             height: 300,
@@ -330,7 +328,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
                           ),
 
                           const SizedBox(
-                            height: 10,
+                            height: 40,
                           ),
 
                           const Text("Not Register Yet?",
@@ -404,7 +402,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
           );
         }
       } else {
-        print('Document does not exist on the database');
+        Fluttertoast.showToast(msg:'Check Your Internet Connection');
       }
     });
   }
@@ -434,8 +432,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Image.asset(
-                'assets/images/errorlogo.png',
+              title: Image.asset('assets/images/errorgif.gif',
                 height: 50,
                 width: 50,
               ),
@@ -481,7 +478,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
               content: const Text('Your validity period has expired.'),
               actions: <Widget>[
                 TextButton(
-                  child: Text('OK'),
+                  child: const Text('OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -493,13 +490,12 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
       } else {
          // Validity period is still active, allow login
         // Add your login logic here
-        print('Login permitted');
+        Fluttertoast.showToast(msg:'Login Permitted');
       }
     } else {
-      print('User document not found');
+      Fluttertoast.showToast(msg:'User Not found');
     }
   }
-
 
   Row forgotPassword() {
     return Row(
@@ -512,8 +508,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
                 MaterialPageRoute(
                     builder: (context) => const ForgotPass_ScreenShow()));
           },
-          child: const Text(
-            " Forgot Password? ",
+          child: const Text(" Forgot Password? ",
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
           ),

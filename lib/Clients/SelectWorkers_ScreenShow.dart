@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:thekaamwale/Clients/Client_ScreenShow.dart';
 import 'package:thekaamwale/OccupationResults/Result_ScreenShow.dart';
 
@@ -50,15 +52,46 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
   // Initialize Firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+//-------------------------------------------------------------------------------------------------------------------------
   Future<List<UserData>> getElectricians() async {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> electricians = [];
@@ -71,8 +104,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       // Iterate through each user document
       for (DocumentSnapshot userDoc in usersSnapshot.docs) {
         // Get the reference to the 'workers' subcollection for each user
-        CollectionReference workersCollectionRef =
-        userDoc.reference.collection('workers');
+        CollectionReference workersCollectionRef = userDoc.reference.collection('workers');
 
         // Query the 'workers' subcollection to get the occupation data
         QuerySnapshot workersSnapshot = await workersCollectionRef.get();
@@ -114,7 +146,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching electricians: $error');
+      Fluttertoast.showToast(msg:'Error fetching electricians, check Internet!: $error');
     }
 
     return electricians;
@@ -124,10 +156,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> plumbers = [];
@@ -183,7 +247,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching electricians: $error');
+      Fluttertoast.showToast(msg:'Error fetching Plumber, check Internet!: $error');
     }
 
     return plumbers;
@@ -193,10 +257,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> rejas = [];
@@ -252,7 +348,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching Reja: $error');
+      Fluttertoast.showToast(msg:'Error fetching Reja, check Internet!: $error');
     }
 
     return rejas;
@@ -262,10 +358,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> majdurs = [];
@@ -321,7 +449,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching Majdur: $error');
+      Fluttertoast.showToast(msg:'Error fetching Majdur, check Internet: $error');
     }
 
     return majdurs;
@@ -331,10 +459,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> mistrys = [];
@@ -390,7 +550,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching Mistry: $error');
+      Fluttertoast.showToast(msg:'Error fetching Mistry, check Internet!: $error');
     }
 
     return mistrys;
@@ -400,10 +560,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> putty_painters = [];
@@ -459,7 +651,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching putty/painters: $error');
+      Fluttertoast.showToast(msg:'Error fetching putty/painters, check Internet!: $error');
     }
 
     return putty_painters;
@@ -469,10 +661,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> carpenters = [];
@@ -528,7 +752,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching carpenters: $error');
+      Fluttertoast.showToast(msg:'Error fetching Carpenters, check Internet!: $error');
     }
 
     return carpenters;
@@ -538,10 +762,42 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
 
     showDialog(context: context, builder: (context)
     {
-      return const Center(child: CircularProgressIndicator(
-        color: Color(0xff2b3d4f),
-        backgroundColor: Colors.white,
-      ));
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     });
 
     List<UserData> tiles_fitting = [];
@@ -597,11 +853,12 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      print('Error fetching Tiles Fitting: $error');
+      Fluttertoast.showToast(msg:'Error fetching Tiles Fitting, check Internet!: $error');
     }
 
     return tiles_fitting;
   }
+
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
@@ -627,277 +884,291 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
             ),
           ),
         ),
-        body: GridView.count(
-          crossAxisCount: 2,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/electrician.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+        body: PopScope(
+          canPop: false,
+          onPopInvoked: (bool didPop) async {
+            if (didPop) {
+              return;
+            }
+            if (context.mounted) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Client_ScreenShow(),
+              ),
+              );
+            }
+          },
+          child: GridView.count(
+            crossAxisCount: 2,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/electrician.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch electricians data
-                      List<UserData> electricians = await getElectricians();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Result_ScreenShow(electricians: electricians)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch electricians data
+                        List<UserData> electricians = await getElectricians();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Result_ScreenShow(electricians: electricians)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/plumber.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/plumber.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch plumbers data
-                      List<UserData> plumbers = await getPlumbers();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Plumbers_Result_ScreenShow(plumbers: plumbers)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> plumbers = await getPlumbers();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Plumbers_Result_ScreenShow(plumbers: plumbers)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/reja.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/reja.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: ()  async{
-                            // Fetch plumbers data
-                               List<UserData> rejas = await getRejas();
-                                Navigator.push(
-                                 context,
-                                 MaterialPageRoute(
-                                  builder: (context) => Rejas_Result_ScreenShow(rejas: rejas)));
-                                },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: ()  async{
+                              // Fetch plumbers data
+                                 List<UserData> rejas = await getRejas();
+                                  Navigator.push(
+                                   context,
+                                   MaterialPageRoute(
+                                    builder: (context) => Rejas_Result_ScreenShow(rejas: rejas)));
+                                  },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/majdur.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/majdur.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch plumbers data
-                      List<UserData> majdurs = await getMajdurs();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Majdurs_Result_ScreenShow(majdurs: majdurs)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> majdurs = await getMajdurs();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Majdurs_Result_ScreenShow(majdurs: majdurs)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/raj-mistry.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/raj-mistry.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch plumbers data
-                      List<UserData> mistrys = await getMistrys();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Mistrys_Result_ScreenShow(mistrys: mistrys)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> mistrys = await getMistrys();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Mistrys_Result_ScreenShow(mistrys: mistrys)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/putty-n-painter.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/putty-n-painter.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch plumbers data
-                      List<UserData> putty_painter = await getPutty_Painters();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PuttyNPainter_Result_ScreenShow(putty_painter: putty_painter)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> putty_painter = await getPutty_Painters();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PuttyNPainter_Result_ScreenShow(putty_painter: putty_painter)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/carpenter.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/carpenter.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch plumbers data
-                      List<UserData> carpenters = await getCarpenters();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Carpenters_Result_ScreenShow(carpenters: carpenters)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> carpenters = await getCarpenters();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Carpenters_Result_ScreenShow(carpenters: carpenters)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/tiles-fitting.png'),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      // color: Colors.grey.withOpacity(0.9),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/tiles-fitting.png'),
                     ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () async{
-                      // Fetch plumbers data
-                      List<UserData> tiles_fitting = await getTiles_Fitting();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TilesFitting_Result_ScreenShow(tiles_fitting: tiles_fitting)));
-                    },
-                    splashColor: const Color(0xff95a6a7),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> tiles_fitting = await getTiles_Fitting();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TilesFitting_Result_ScreenShow(tiles_fitting: tiles_fitting)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+  
 
 }

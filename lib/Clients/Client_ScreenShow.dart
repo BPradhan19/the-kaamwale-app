@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,6 +44,8 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future.delayed(const Duration(seconds: 1), () => showFillFormDialog(context));
+    //-----------------------------------------------videoplayer---------------------------------------------------------------
     _videoPlayerController =
         VideoPlayerController.asset('assets/images/kwclient.mp4');
     _chewieController = ChewieController(
@@ -61,14 +64,14 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
   }
 
   final BannerAdListener bannerAdListener = BannerAdListener(
-    onAdLoaded: (Ad ad) => print("Ad Loaded"),
+    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"Welcome to"),
     onAdFailedToLoad: (Ad ad, LoadAdError error) {
       ad.dispose();
-      print("Ad Failed to load: $error");
+      Fluttertoast.showToast(msg:"Ad Failed to load: $error");
     },
-    onAdOpened: (Ad ad) => print("Ad opened"),
-    onAdClosed: (Ad ad) => print("Ad closed"),
-    onAdImpression: (Ad ad) => print("Ad Impression"),
+    onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
+    onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
+    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"The Kaamwale"),
   );
 
   final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -145,14 +148,52 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
     _chewieController.dispose();
   }
 
+  void showFillFormDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // Create alert dialog
+        return AlertDialog(
+          title: const Text('*Important Note*',textAlign: TextAlign.center,),
+          content:SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Please take a moment to carefully review the following information:'),
+                const SizedBox(height: 15), // Add some spacing between lines
+                Center(
+                  child: Image.asset('assets/images/menugif.gif',
+                    height: 30,
+                    width: 30,
+                  ),
+                ),
+                const Text('* Go to the Menu'),
+                const Text('* Click on  P R O F I L E  Option'),
+                const Text('* Fill the Form Carefully'),
+                const SizedBox(height: 10),
+                const Text('** If You already Done! then Ignore this Message **',style: TextStyle(fontWeight: FontWeight.bold),),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 //----------------------------------------------------------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     final Uri whatsapp = Uri.parse('https://wa.me/+918359004561');
     final Uri insta = Uri.parse('https://www.instagram.com/kaamwale.official/');
     final Uri youtube = Uri.parse('https://www.youtube.com/@Kaamwale.official');
-    final Uri facebook =
-        Uri.parse('https://www.facebook.com/people/KaamWale/61558817762441/');
+    final Uri facebook = Uri.parse('https://www.facebook.com/people/KaamWale/61558817762441/');
     final Uri x = Uri.parse('https://twitter.com/wale_kaam');
 
     final AdWidget adwidget = AdWidget(ad: bannerAd);
@@ -164,7 +205,7 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
         backgroundColor: const Color(0xff95a6a7),
         appBar: AppBar(
           title: const Text(
-            " T H E  K A A M W A L E",
+            "T H E  K A A M W A L E",
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
@@ -174,10 +215,10 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xff95a6a7),
+          backgroundColor: Colors.white,
           child: const Icon(
             Icons.feedback,
-            color: Colors.white,
+            color: Colors.black,
           ),
           onPressed: () {},
         ),
@@ -213,18 +254,18 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
                 ),
               ),
 
-              Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.circular(10),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Chewie(
+                    controller: _chewieController,
+                  ),
                 ),
-                child: Chewie(
-                  controller: _chewieController,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
               const Text(
                 'Home Workforce Solutions',
@@ -232,280 +273,280 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
               const SizedBox(
-                height: 20,
-              ),
-
-              Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
-                  color: const Color(0xff2b3d4f),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Text(
-                        'H I R E  W O R K E R',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        // height: 190,
-                        // width: 400,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(35),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/imgorgf.png'),
-                          ),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SelectWorkers_ScreenShow()));
-                            },
-                            splashColor: const Color(0xff95a6a7),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
                 height: 10,
               ),
 
-              Container(
-                /*height: 160,
-               width: 410,*/
-                height: MediaQuery.of(context).size.height * 0.2,
-                decoration: BoxDecoration(
-                  color: const Color(0xff2b3d4f),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Text(
-                        'F O L L O W   U S',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 1,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff2b3d4f),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/instadark.png'),
-                              ),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () async {
-                                  launchUrl(insta);
-                                },
-                                splashColor: const Color(0xff2b3d4f),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/youtubedark.png'),
-                              ),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () async {
-                                  launchUrl(youtube);
-                                },
-                                splashColor: const Color(0xff2b3d4f),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20),
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/facebookdark.png'),
-                              ),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () async {
-                                  launchUrl(facebook);
-                                },
-                                splashColor: const Color(0xff2b3d4f),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              image: const DecorationImage(
-                                image: AssetImage('assets/images/xlogo.jpg'),
-                              ),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () async {
-                                  launchUrl(x);
-                                },
-                                splashColor: const Color(0xff2b3d4f),
-                              ),
-                            ),
-                          )
-                        ],
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Text(
+                          'H I R E  W O R K E R',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/imgorgf.png'),
+                            ),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SelectWorkers_ScreenShow()));
+                              },
+                              splashColor: const Color(0xff95a6a7),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 1,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff2b3d4f),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Text(
+                          'F O L L O W   U S',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                                image: const DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/instadark.png'),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () async {
+                                    launchUrl(insta);
+                                  },
+                                  splashColor: const Color(0xff2b3d4f),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                                image: const DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/youtubedark.png'),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () async {
+                                    launchUrl(youtube);
+                                  },
+                                  splashColor: const Color(0xff2b3d4f),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/facebookdark.png'),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () async {
+                                    launchUrl(facebook);
+                                  },
+                                  splashColor: const Color(0xff2b3d4f),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                image: const DecorationImage(
+                                  image: AssetImage('assets/images/xlogo.jpg'),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () async {
+                                    launchUrl(x);
+                                  },
+                                  splashColor: const Color(0xff2b3d4f),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
               ),
               //  final AdWidget adwidget = AdWidget(ad : bannerAd);                -----------------Ad is here---------------
-              Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 1,
-                decoration: BoxDecoration(
-                  color: const Color(0xff2b3d4f),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SizedBox(
-                  height: bannerAd.size.height.toDouble(),
-                  width: bannerAd.size.width.toDouble(),
-                  child: adwidget,
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 1,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff2b3d4f),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SizedBox(
+                    height: bannerAd.size.height.toDouble(),
+                    width: bannerAd.size.width.toDouble(),
+                    child: adwidget,
+                  ),
                 ),
               ),
 
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                /*height: 530,
-               width: 410,*/
-                height: MediaQuery.of(context).size.height * 0.6,
-                decoration: BoxDecoration(
-                  color: const Color(0xff2b3d4f),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Text(
-                        'F A Q   A B O U T   K A A M W A L E',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  width: MediaQuery.of(context).size.width * 1,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff2b3d4f),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Text(
+                          'F A Q   A B O U T   K A A M W A L E',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Center(
-                          child: Container(
-                            height: 400,
-                            width: 350,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: const LinearGradient(
-                                colors: [Color(0xff95a6a7), Color(0xff2b3d4f)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                      Column(
+                        children: [
+                          Center(
+                            child: Container(
+                              height: 400,
+                              width: 350,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xff95a6a7), Color(0xff2b3d4f)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              child: ListView.builder(
+                                itemCount: faqs.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ExpansionTile(
+                                    title: Text(
+                                      faqs[index].question,
+                                      style: const TextStyle(color: Colors.white),
+                                    ),
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Text(
+                                          faqs[index].answer,
+                                          textAlign: TextAlign.justify,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ),
-                            child: ListView.builder(
-                              itemCount: faqs.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ExpansionTile(
-                                  title: Text(
-                                    faqs[index].question,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Text(
-                                        faqs[index].answer,
-                                        textAlign: TextAlign.justify,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -639,10 +680,9 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('L O G O U T'),
+                        title: const Text('L O G O U T',textAlign: TextAlign.center,),
                         icon: const Icon(Icons.logout),
-                        content: const Text(
-                            'Are you sure you want to LOGOUT and CLOSE the Application?'),
+                        content: const Text('Are you sure you want to LOGOUT and CLOSE the Application?'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -703,7 +743,7 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Are You Sure?'),
+            title: const Text('Are You Sure?',textAlign: TextAlign.center,),
             content:
                 const Text('Are You Sure,You want to leave the Application?'),
             actions: [
@@ -711,7 +751,7 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
                 onPressed: () {
                   Navigator.pop(context, false);
                 },
-                child: const Text('Never-Mind'),
+                child: const Text('No'),
               ),
               TextButton(
                 onPressed: () {
@@ -725,14 +765,4 @@ class _Client_ScreenShowState extends State<Client_ScreenShow> {
         });
   }
 
-  /*Future<void> logout(BuildContext context) async {
-    const CircularProgressIndicator();
-    await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Login_ScreenShow(),
-      ),
-    );
-  }*/
 }
