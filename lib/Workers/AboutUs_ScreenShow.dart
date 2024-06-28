@@ -18,6 +18,7 @@ class _AboutUsScreenShowState extends State<AboutUsScreenShow> {
   late final BannerAd bannerAd;
   final String adUnitId = "ca-app-pub-3940256099942544/6300978111";
 
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -42,6 +43,11 @@ class _AboutUsScreenShowState extends State<AboutUsScreenShow> {
     onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"Us"),
   );
 
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
 
 
   @override

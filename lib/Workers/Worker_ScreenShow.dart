@@ -144,6 +144,7 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
      super.dispose();
    _videoPlayerController.dispose();
      _chewieController.dispose();
+
    }
 
   void showFillFormDialog(BuildContext context) {
@@ -195,6 +196,7 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
     final Uri youtube = Uri.parse('https://www.youtube.com/@Kaamwale.official');
     final Uri facebook = Uri.parse('https://www.facebook.com/people/KaamWale/61558817762441/');
     final Uri x = Uri.parse('https://twitter.com/wale_kaam');
+    final Uri feedback = Uri.parse('https://www.vrkahdevtech.com/');
 
     final AdWidget adwidget = AdWidget(ad : bannerAd);
 
@@ -218,7 +220,7 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
           backgroundColor: Colors.white,
           child: const Icon(Icons.feedback,color: Colors.black,),
           onPressed: (){
-
+            launchUrl(feedback);
           },
         ),
 

@@ -122,7 +122,7 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Image.asset('assets/images/success.gif',height: 50,width: 50,),
-            content: const Text('**SUCCESSFULLY SAVE**',textAlign: TextAlign.center,),
+            content: const Text('**SUCCESSFULLY SAVE**',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -184,9 +184,6 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
     onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
     onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"Careful!"),
   );
-
-
-
 
   void showFillFormDialog(BuildContext context) {
     showDialog(
@@ -342,6 +339,9 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: fullNameController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(25), // Limit input length to 6 characters
+                          ],
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -376,6 +376,9 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                       child: TextFormField(
                           controller: mobileNoController,
                           keyboardType: TextInputType.phone,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10), // Limit input length to 10 characters
+                          ],
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -415,6 +418,9 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: placeController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(25), // Limit input length to 30 characters
+                          ],
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -448,6 +454,9 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: cityController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(20), // Limit input length to 6 characters
+                          ],
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -481,6 +490,9 @@ class _Clients_ProfileShowState extends State<Clients_ProfileShow> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           controller: stateController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(20), // Limit input length to 6 characters
+                          ],
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,

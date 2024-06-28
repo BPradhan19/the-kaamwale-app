@@ -120,7 +120,7 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Image.asset('assets/images/success.gif',height: 50,width: 50,),
-            content: const Text('**UPDATE SUCCESSFULLY**',textAlign: TextAlign.center,),
+            content: const Text('**UPDATE SUCCESSFULLY**',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -196,7 +196,7 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
                 Text('Please take a moment to carefully review the following information before filling out the form:'),
                 SizedBox(height: 15), // Add some spacing between lines
                 Text('* Carefully fill Your Mobile Number.'),
-                Text('* Select Occupation 1 or 2 (Max)'),
+                Text('* Select Occupation 1 or 2 (Max),Any 2'),
                 Text('* Make Sure you fill Address properly'),
                 Text('* Fill PinCode properly that will help Clients to Reach you'),
                 Text('* Double-check all entered information for accuracy.'),
@@ -338,77 +338,79 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
 
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: fullNameController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              prefixIcon: const Icon(Icons.person),
-                              hintText: 'Enter Your Full Name',
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: fullNameController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(25), // Limit input length to 6 characters
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            prefixIcon: const Icon(Icons.person),
+                            hintText: 'Enter Your Full Name',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your FullName Here";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your FullName Here";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: mobileNoController,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter Your Mobile Number',
-                              prefixIcon: const Icon(Icons.phone),
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: mobileNoController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10), // Limit input length to 6 characters
+                          ],
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Your Mobile Number',
+                            prefixIcon: const Icon(Icons.phone),
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {
-                              //_formKey.currentState?.validate();
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your Mobile Number Here";
-                              } else if (!RegExp(
-                                  r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
-                                  .hasMatch(value)) {
-                                return "Please Enter a Valid Mobile Number Here";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            //_formKey.currentState?.validate();
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your Mobile Number Here";
+                            } else if (!RegExp(
+                                r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                .hasMatch(value)) {
+                              return "Please Enter a Valid Mobile Number Here";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 10,
@@ -436,7 +438,7 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
                           ),
                           validator: (value) {
                             if (value == null || value.length == 0) {
-                              return 'Please select one or more options';
+                              return 'Please select one or more options( Any 2 )';
                             }
                             return null;
                           },
@@ -478,7 +480,7 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
                           valueField: 'value',
                           okButtonLabel: 'OK',
                           cancelButtonLabel: 'CANCEL',
-                          hintWidget: const Text('Please choose one or more'),
+                          hintWidget: const Text('Please choose one or more (Any 2)'),
                           initialValue: _selectedOccupation,
                           onSaved: (value) {
                             if (value == null) return;
@@ -494,183 +496,182 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: workExpController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(2), // Limit input length to 2 characters
-                            ],
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter Your Year of Work Experience',
-                              prefixIcon: const Icon(Icons.person_pin_rounded),
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: workExpController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(2), // Limit input length to 2 characters
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Your Year of Work Experience',
+                            prefixIcon: const Icon(Icons.person_pin_rounded),
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your Year of Work Experience";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your Year of Work Experience";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: placeController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter Your Place(Address)',
-                              prefixIcon: const Icon(Icons.location_city_sharp),
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: placeController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(25), // Limit input length to 6 characters
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Your Place(Address)',
+                            prefixIcon: const Icon(Icons.location_city_sharp),
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your Address Here ";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your Address Here ";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: cityController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter Your City',
-                              prefixIcon: const Icon(Icons.pin_drop_outlined),
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: cityController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(20), // Limit input length to 6 characters
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Your City',
+                            prefixIcon: const Icon(Icons.pin_drop_outlined),
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your City Here";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your City Here";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: stateController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter Your State',
-                              prefixIcon: const Icon(Icons.pin_drop_sharp),
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: stateController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(20), // Limit input length to 6 characters
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Your State',
+                            prefixIcon: const Icon(Icons.pin_drop_sharp),
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your State Here";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your State Here";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: TextFormField(
-                            controller: pinController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(6), // Limit input length to 6 characters
-                            ],
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Enter Your PinCode',
-                              prefixIcon: const Icon(Icons.pin_drop_outlined),
-                              enabled: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: TextFormField(
+                          controller: pinController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(6), // Limit input length to 6 characters
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter Your PinCode',
+                            prefixIcon: const Icon(Icons.pin_drop_outlined),
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please Enter Your PinCode Here";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your PinCode Here";
+                            } else {
+                              return null;
+                            }
+                          }),
                     ),
 
                     const SizedBox(
