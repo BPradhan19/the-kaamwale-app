@@ -87,9 +87,9 @@ class _Register_ScreenShowState extends State<Register_ScreenShow> {
 
   void _openRazorpayPayment() {
     var options = {
-      'key': 'rzp_test_3MjLOTBB8eEKSL',
+      'key': 'rzp_live_WmAH2M7HLgHBIa',
       'amount': 9900, // Amount in paisa (10000 paisa = ₹100)
-      'name': 'hello world',
+      'name': 'THE KAAMWALE',
       'description': 'Registration Fee',
       'prefill': {'contact': '', 'email': ''},
       'external': {
@@ -272,7 +272,7 @@ class _Register_ScreenShowState extends State<Register_ScreenShow> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset('assets/images/aikaamwale.png',
-                          height: 220, width: 220),
+                          height: 170, width: 170),
 
                       Container(
                         height: MediaQuery.of(context).size.height * 0.6,

@@ -9,6 +9,7 @@ import 'package:thekaamwale/Credential/ForgotPass_ScreenShow.dart';
 import 'package:thekaamwale/Credential/Register_ScreenShow.dart';
 import 'package:thekaamwale/Workers/Worker_ScreenShow.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Login_ScreenShow extends StatefulWidget {
   const Login_ScreenShow({super.key});
@@ -56,7 +57,7 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
 
   void _openRazorpayPayment() {
     var options = {
-      'key': 'rzp_test_3MjLOTBB8eEKSL',
+      'key': 'rzp_live_WmAH2M7HLgHBIa',
       'amount': 9900, // Amount in paisa (10000 paisa = ₹100)
       'name': 'THE KAAMWALE',
       'description': 'Registration Fee',
@@ -138,10 +139,23 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
 
   @override
   Widget build(BuildContext context) {
+
+    final Uri feedback = Uri.parse('https://www.vrkahdevtech.com/');
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.85)),
       child: Scaffold(
         backgroundColor: Colors.black,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.white,
+          child: const Icon(
+            Icons.chat,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            launchUrl(feedback);
+          },
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -158,6 +172,8 @@ class _Login_ScreenShowState extends State<Login_ScreenShow> {
                   end: Alignment.bottomRight,
                 ),
               ),
+
+
               child: Column(
                 children: <Widget>[
                   Center(
