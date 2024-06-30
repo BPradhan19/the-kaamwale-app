@@ -131,14 +131,14 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
    }
 
   final BannerAdListener bannerAdListener = BannerAdListener(
-    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"Welcome To"),
+    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
     onAdFailedToLoad: (Ad ad, LoadAdError error){
       ad.dispose();
-      Fluttertoast.showToast(msg:"Ad Failed to load: $error");
+      Fluttertoast.showToast(msg:"Ad Failed to load");
     },
     onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
     onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
-    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"The Kaamwale"),
+    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
   );
 
 
@@ -156,6 +156,7 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
       builder: (BuildContext context) {
         // Create alert dialog
         return AlertDialog(
+          backgroundColor: const Color(0xff95a6a7),
           title: const Text('*Important Note*',textAlign: TextAlign.center,),
           content:SingleChildScrollView(
             child: ListBody(
@@ -168,8 +169,8 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
                     width: 30,
                   ),
                 ),
-                const Text('* Go to the Menu'),
-                const Text('* Click on  P R O F I L E  Option'),
+                const Text('* Go to the Menu',style: TextStyle(fontWeight: FontWeight.bold),),
+                const Text('* Click on  P R O F I L E  Option',style: TextStyle(fontWeight: FontWeight.bold),),
                 const Text('* Fill the Form Carefully'),
                 const SizedBox(height: 10),
                 const Text('** If You already Done! then Ignore this Message **',style: TextStyle(fontWeight: FontWeight.bold),),
@@ -178,7 +179,7 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
           ),
           actions: [
             TextButton(
-              child: const Text('Close'),
+              child: const Text('Close',style: TextStyle(color: Colors.white),),
               onPressed: () {
                 Navigator.of(context).pop();
               },

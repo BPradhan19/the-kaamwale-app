@@ -35,14 +35,14 @@ class _AboutUsScreenShowState extends State<AboutUsScreenShow> {
   }
 
   final BannerAdListener bannerAdListener = BannerAdListener(
-    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"About"),
+    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
     onAdFailedToLoad: (Ad ad, LoadAdError error) {
       ad.dispose();
       Fluttertoast.showToast(msg:"Ad Failed to load: $error");
     },
     onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
     onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
-    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"Us"),
+    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
   );
 
   @override

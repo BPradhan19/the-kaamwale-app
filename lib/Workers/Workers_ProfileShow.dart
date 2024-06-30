@@ -118,15 +118,16 @@ class _Workers_ProfileShowState extends State<Workers_ProfileShow> {
              context: context,
              builder: (BuildContext context) {
                return AlertDialog(
-                 title: Image.asset('assets/images/success.gif',height: 50,width: 50,),
-                 content: const Text('**SUCCESSFULLY SAVE**',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                 backgroundColor: const Color(0xff95a6a7),
+                 title: const Text('*PROFILE SAVED SUCCESSFULLY*',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),//
+                 content: Image.asset('assets/images/success.gif',height: 80,width: 80,),
                  actions: <Widget>[
                    TextButton(
                      onPressed: () {
                        Navigator.of(context).pop();
                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Worker_Profile_Exists()));
                      },
-                     child: const Text('OK'),
+                     child: const Text('Okay'),
                    ),
                  ],
                );
@@ -174,14 +175,14 @@ class _Workers_ProfileShowState extends State<Workers_ProfileShow> {
 
   }
   final BannerAdListener bannerAdListener = BannerAdListener(
-    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"Carefully!"),
+    onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
     onAdFailedToLoad: (Ad ad, LoadAdError error) {
       ad.dispose();
-      Fluttertoast.showToast(msg:"Ad Failed to load: $error");
+      Fluttertoast.showToast(msg:"Ad Failed to load");
     },
     onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
     onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
-    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"Imp Note!"),
+    onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
   );
 
 
@@ -204,16 +205,17 @@ class _Workers_ProfileShowState extends State<Workers_ProfileShow> {
       builder: (BuildContext context) {
         // Create alert dialog
         return AlertDialog(
+          backgroundColor: const Color(0xff95a6a7),
           title: const Text('*Important Note*',textAlign: TextAlign.center,),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('Please take a moment to carefully review the following information before filling out the form:'),
                 SizedBox(height: 15), // Add some spacing between lines
-                Text('* Carefully fill Your Mobile Number.'),
-                Text('* Select Occupation 1 or 2 (Max),Any 2'),
-                Text('* Make Sure you fill Address properly'),
-                Text('* Fill PinCode properly that will help Clients to Reach you'),
+                Text('* Carefully fill Your Mobile Number.',style: TextStyle(fontWeight: FontWeight.bold),),
+                Text('* Select Occupation 1 or 2 (Max),Any 2',style: TextStyle(fontWeight: FontWeight.bold),),
+                Text('* Make Sure you fill Address properly',style: TextStyle(fontWeight: FontWeight.bold),),
+                Text('* Fill PinCode properly that will help Clients to Reach you',style: TextStyle(fontWeight: FontWeight.bold),),
                 Text('* Double-check all entered information for accuracy.'),
                 Text('* If unsure about any field, seek Clarification before Submitting.'),
               ],
@@ -221,7 +223,7 @@ class _Workers_ProfileShowState extends State<Workers_ProfileShow> {
           ),
           actions: [
             TextButton(
-              child: const Text('Close'),
+              child: const Text('Close',style: TextStyle(color: Colors.white),),
               onPressed: () {
                 Navigator.of(context).pop();
               },

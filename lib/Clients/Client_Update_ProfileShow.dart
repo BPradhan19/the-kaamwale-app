@@ -116,15 +116,16 @@ Future<void> _saveDataToFirestore(BuildContext context) async {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/images/success.gif',height: 50,width: 50,),
-          content: const Text('**UPDATE SUCCESSFULLY**',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          backgroundColor: const Color(0xff95a6a7),
+          title: const Text('*PROFILE UPDATED SUCCESSFULLY*',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),//
+          content: Image.asset('assets/images/success.gif',height: 80,width: 80,),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Client_Profile_Exists()));
               },
-              child: const Text('OK'),
+              child: const Text('Okay',style: TextStyle(color: Colors.white),),
             ),
           ],
         );
@@ -170,14 +171,14 @@ void initState() {
   bannerAd.load(); //load ad here
 }
 final BannerAdListener bannerAdListener = BannerAdListener(
-  onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"Carefully!"),
+  onAdLoaded: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
   onAdFailedToLoad: (Ad ad, LoadAdError error) {
     ad.dispose();
-    Fluttertoast.showToast(msg:"Ad Failed to load: $error");
+    Fluttertoast.showToast(msg:"Ad Failed to load");
   },
   onAdOpened: (Ad ad) => Fluttertoast.showToast(msg:"Ad opened"),
   onAdClosed: (Ad ad) => Fluttertoast.showToast(msg:"Ad closed"),
-  onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"IMP Note!"),
+  onAdImpression: (Ad ad) => Fluttertoast.showToast(msg:"",backgroundColor:Colors.transparent),
 );
 
 
@@ -188,6 +189,7 @@ void showFillFormDialog(BuildContext context) {
     builder: (BuildContext context) {
       // Create alert dialog
       return AlertDialog(
+        backgroundColor: const Color(0xff95a6a7),
         title: const Text('*Important Note*',textAlign: TextAlign.center,),
         content: const SingleChildScrollView(
           child: ListBody(
@@ -203,7 +205,7 @@ void showFillFormDialog(BuildContext context) {
         ),
         actions: [
           TextButton(
-            child: const Text('Close'),
+            child: const Text('Close',style: TextStyle(color: Colors.white)),
             onPressed: () {
               Navigator.of(context).pop();
             },
