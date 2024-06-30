@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:thekaamwale/Clients/Client_ScreenShow.dart';
 import 'package:thekaamwale/OccupationResults/Result_ScreenShow.dart';
@@ -53,6 +54,14 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
   // Initialize Firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 //-------------------------------------------------------------------------------------------------------------------------
+
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+
   Future<List<UserData>> getElectricians() async {
 
     showDialog(context: context, builder: (context)

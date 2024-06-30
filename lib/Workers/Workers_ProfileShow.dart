@@ -161,6 +161,7 @@ class _Workers_ProfileShowState extends State<Workers_ProfileShow> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     Future.delayed(const Duration(seconds: 1), () => showFillFormDialog(context));
 
     bannerAd = BannerAd(

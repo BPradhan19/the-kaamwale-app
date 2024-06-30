@@ -4,6 +4,7 @@ import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -108,6 +109,8 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
    @override
   void initState(){
      super.initState();
+     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
      Future.delayed(const Duration(seconds: 1), () => showFillFormDialog(context));
      //---------------------------------------VideoPlayer---------------------------------------------------------------------
     _videoPlayerController = VideoPlayerController.asset('assets/images/kwworker.mp4');
@@ -461,38 +464,41 @@ class _Worker_ScreenShowState extends State<Worker_ScreenShow> {
                       Column(
                         children: [
                           Center(
-                            child: Container(
-                              height: 400,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: const LinearGradient(
-                                  colors: [Color(0xff95a6a7), Color(0xff2b3d4f)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                            child: MediaQuery(
+                              data: MediaQuery.of(context),
+                              child: Container(
+                                height: 400,
+                                width: 350,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xff95a6a7), Color(0xff2b3d4f)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
                                 ),
-                              ),
-                              child: ListView.builder(
-                                itemCount: faqs.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ExpansionTile(
-                                    title: Text(
-                                      faqs[index].question,
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                    children: [
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(horizontal: 16.0),
-                                        child: Text(
-                                          faqs[index].answer,
-                                          textAlign: TextAlign.justify,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
+                                child: ListView.builder(
+                                  itemCount: faqs.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return ExpansionTile(
+                                      title: Text(
+                                        faqs[index].question,
+                                        style: const TextStyle(color: Colors.white),
                                       ),
-                                    ],
-                                  );
-                                },
+                                      children: [
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(horizontal: 16.0),
+                                          child: Text(
+                                            faqs[index].answer,
+                                            textAlign: TextAlign.justify,
+                                            style: const TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),

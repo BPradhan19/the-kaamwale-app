@@ -158,7 +158,7 @@ final String adUnitId = "ca-app-pub-3940256099942544/6300978111";
 @override
 void initState() {
   super.initState();
-
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Future.delayed(const Duration(seconds: 1), () => showFillFormDialog(context));
 
   bannerAd = BannerAd(

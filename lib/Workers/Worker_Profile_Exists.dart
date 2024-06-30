@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:thekaamwale/Workers/Worker_ScreenShow.dart';
 
@@ -33,6 +34,13 @@ Future<List<DocumentSnapshot>> _fetchData() async {
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
 class _Worker_Profile_ExistsState extends State<Worker_Profile_Exists> {
+
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -125,353 +133,365 @@ class _Worker_Profile_ExistsState extends State<Worker_Profile_Exists> {
                             ),
                           ),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 1,
-                          height: MediaQuery.of(context).size.height ,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff95a6a7), Color(0xff2b3d4f)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+                        MediaQuery(
+                          data: MediaQuery.of(context),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 1,
+                            height: MediaQuery.of(context).size.height ,
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xff95a6a7), Color(0xff2b3d4f)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                             ),
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                SelectableText(
-                                  'WUID:- ${snapshot.data![index]['uid']}',
-                                  cursorColor: Colors.amber,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Container(
-                                  height: MediaQuery.of(context).size.height * 0.2,
-                                  width: 360,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff95a6a7),
-                                    borderRadius: BorderRadius.circular(30),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 30,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text('P E R S O N A L  D E T A I L S'),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(
-                                            width: 55,
-                                          ),
-                                          const Text(
-                                            'F U L L  N A M E :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              ' ${snapshot.data![index]['fullName']}',
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 55,
-                                          ),
-                                          const Text(
-                                            'M O B I L E  N U M B E R :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              ' ${snapshot.data![index]['mobileNo']}',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                  SelectableText(
+                                    'WUID:- ${snapshot.data![index]['uid']}',
+                                    cursorColor: Colors.amber,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-
-                                Container(
-                                  height: MediaQuery.of(context).size.height * 0.2,
-                                  width: 360,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff95a6a7),
-                                    borderRadius: BorderRadius.circular(30),
+                                  const SizedBox(
+                                    height: 30,
                                   ),
-                                  child:  Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 5,
+                                  MediaQuery(
+                                    data: MediaQuery.of(context),
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height * 0.2,
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xff95a6a7),
+                                        borderRadius: BorderRadius.circular(30),
                                       ),
-                                      const Text('W O R K  D E T A I L S'),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                      child: Column(
                                         children: [
                                           const SizedBox(
-                                            width: 55,
+                                            height: 5,
                                           ),
-                                          const Text('O C C U P A T I O N :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(' ${snapshot.data![index]['selectedOccupation']}',
-                                              maxLines: 2,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
+                                          const Text('P E R S O N A L  D E T A I L S'),
                                           const SizedBox(
-                                            width: 55,
+                                            height: 20,
                                           ),
-                                          const Text('E X P E R I E N C E :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(' ${snapshot.data![index]['workExp']}',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
                                               ),
-                                            ),
+                                              const Text(
+                                                'F U L L  N A M E :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                              Expanded(
+                                                child: AutoSizeText(
+                                                  ' ${snapshot.data![index]['fullName']}',
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: MediaQuery.of(context).size.height * 0.3,
-                                  width: 360,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff95a6a7),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text('A D D R E S S  D E T A I L S'),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
                                           const SizedBox(
-                                            width: 55,
+                                            height: 20,
                                           ),
-                                          const Text('P L A C E :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(' ${snapshot.data![index]['place']}',
-                                              maxLines: 2,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
                                               ),
-                                            ),
+                                              const Text(
+                                                'M O B I L E  N U M B E R :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  ' ${snapshot.data![index]['mobileNo']}',
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 55,
-                                          ),
-                                          const Text('C I T Y :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(' ${snapshot.data![index]['city']}',
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 55,
-                                          ),
-                                          const Text('S T A T E :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(' ${snapshot.data![index]['state']}',
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 55,
-                                          ),
-                                          const Text('P I N C O D E :-',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(' ${snapshot.data![index]['pin']}',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                    ],
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-
-                                    ElevatedButton.icon(
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Worker_Update_ProfileShow(),
-                                          ),
-                                        );
-                                      },
-                                      icon: const Icon(Icons.update),
-                                      label: const Text("U P D A T E"),
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: const Color(
-                                            0xff2b3d4f), // Set the text color
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 45,
-                                    ),
-                                    ElevatedButton.icon(
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Worker_ScreenShow(),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                          
+                                  MediaQuery(
+                                    data: MediaQuery.of(context),
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height * 0.2,
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xff95a6a7),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child:  Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 5,
                                           ),
-                                        );
-                                      },
-                                      icon: const Icon(Icons.home),
-                                      label: const Text("H O M E"),
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: const Color(
-                                            0xff95a6a7), // Set the text color
+                                          const Text('W O R K  D E T A I L S'),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
+                                              ),
+                                              const Text('O C C U P A T I O N :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: AutoSizeText(' ${snapshot.data![index]['selectedOccupation']}',
+                                                  maxLines: 2,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
+                                              ),
+                                              const Text('E X P E R I E N C E :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Text(' ${snapshot.data![index]['workExp']}',
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-
-                                  ],
-                                ),
-                                const SizedBox(height: 50,),
-
-                              ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  MediaQuery(
+                                    data: MediaQuery.of(context),
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height * 0.3,
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xff95a6a7),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          const Text('A D D R E S S  D E T A I L S'),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
+                                              ),
+                                              const Text('P L A C E :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: AutoSizeText(' ${snapshot.data![index]['place']}',
+                                                  maxLines: 2,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
+                                              ),
+                                              const Text('C I T Y :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: AutoSizeText(' ${snapshot.data![index]['city']}',
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                                              
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
+                                              ),
+                                              const Text('S T A T E :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: AutoSizeText(' ${snapshot.data![index]['state']}',
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                                              
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 55,
+                                              ),
+                                              const Text('P I N C O D E :-',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Text(' ${snapshot.data![index]['pin']}',
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                                              
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                          
+                                  const SizedBox(
+                                    height: 25,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                          
+                                      ElevatedButton.icon(
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Worker_Update_ProfileShow(),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(Icons.update),
+                                        label: const Text("U P D A T E"),
+                                        style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: const Color(
+                                              0xff2b3d4f), // Set the text color
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 45,
+                                      ),
+                                      ElevatedButton.icon(
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Worker_ScreenShow(),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(Icons.home),
+                                        label: const Text("H O M E"),
+                                        style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: const Color(
+                                              0xff95a6a7), // Set the text color
+                                        ),
+                                      ),
+                          
+                                    ],
+                                  ),
+                                  const SizedBox(height: 50,),
+                          
+                                ],
+                              ),
                             ),
                           ),
                         ),
