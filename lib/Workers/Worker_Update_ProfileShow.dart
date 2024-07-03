@@ -478,6 +478,18 @@ class _Worker_Update_ProfileShowState extends State<Worker_Update_ProfileShow> {
                               "display": "Tiles Fitting",
                               "value": "Tiles Fitting",
                             },
+                            {
+                              "display": "Glass Worker", //Glass Worker
+                              "value": "Glass Worker",
+                            },
+                            {
+                              "display": "Welder", //Welder
+                              "value": "Welder",
+                            },
+                            {
+                              "display": "Aluminium Worker",//Aluminium Worker
+                              "value": "Aluminium Worker",
+                            },
                           ],
                           textField: 'display',
                           valueField: 'value',

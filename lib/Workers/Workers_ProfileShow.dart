@@ -491,6 +491,18 @@ class _Workers_ProfileShowState extends State<Workers_ProfileShow> {
                               "display": "Tiles Fitting",
                               "value": "Tiles Fitting",
                             },
+                            {
+                              "display": "Glass Worker", //glass-worker
+                              "value": "Glass Worker",
+                            },
+                            {
+                              "display": "Welder", //welder
+                              "value": "Welder",
+                            },
+                            {
+                              "display": "Aluminium Worker",//aluminium-worker
+                              "value": "Aluminium Worker",
+                            },
                           ],
                           textField: 'display',
                           valueField: 'value',

@@ -36,7 +36,7 @@ class Client_ScreenShow extends StatefulWidget {
 
 class _Client_ScreenShowState extends State<Client_ScreenShow> {
   late final BannerAd bannerAd;
-  final String adUnitId = "ca-app-pub-3940256099942544/6300978111";
+  final String adUnitId = "ca-app-pub-3940256099942544/6300978111";//CC89A94ABBABDB91FB8A678340063412
 
   late VideoPlayerController _videoPlayerController;
   late ChewieController _chewieController;

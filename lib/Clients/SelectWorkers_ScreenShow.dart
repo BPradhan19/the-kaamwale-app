@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:thekaamwale/Clients/Client_ScreenShow.dart';
+import 'package:thekaamwale/OccupationResults/GlassWorker_Result_ScreenShow.dart';
+import 'package:thekaamwale/OccupationResults/AluminiumWorker_Result_ScreenShow.dart';
 import 'package:thekaamwale/OccupationResults/Result_ScreenShow.dart';
 
 import '../OccupationResults/Carpenters_Result_ScreenShow.dart';
@@ -13,6 +15,7 @@ import '../OccupationResults/Plumbers_Result_ScreenShow.dart';
 import '../OccupationResults/PuttyNPainter_Result_ScreenShow.dart';
 import '../OccupationResults/Rejas_Result_ScreenShow.dart';
 import '../OccupationResults/TilesFitting_Result_ScreenShow.dart';
+import '../OccupationResults/Welder_Result_ScreenShow.dart';
 
 class UserData {
   final String userId;
@@ -155,7 +158,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching electricians, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching electricians, check Internet!');
     }
 
     return electricians;
@@ -256,7 +259,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching Plumber, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching Plumber, check Internet!');
     }
 
     return plumbers;
@@ -357,7 +360,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching Reja, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching Reja, check Internet!');
     }
 
     return rejas;
@@ -458,7 +461,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching Majdur, check Internet: $error');
+      Fluttertoast.showToast(msg:'Error fetching Majdur, check Internet');
     }
 
     return majdurs;
@@ -559,7 +562,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching Mistry, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching Mistry, check Internet!');
     }
 
     return mistrys;
@@ -660,7 +663,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching putty/painters, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching putty/painters, check Internet!');
     }
 
     return putty_painters;
@@ -761,7 +764,7 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching Carpenters, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching Carpenters, check Internet!');
     }
 
     return carpenters;
@@ -862,13 +865,314 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
       }
     } catch (error) {
       // Handle errors
-      Fluttertoast.showToast(msg:'Error fetching Tiles Fitting, check Internet!: $error');
+      Fluttertoast.showToast(msg:'Error fetching Tiles Fitting, check Internet!');
     }
 
     return tiles_fitting;
   }
 
+  Future<List<UserData>> getGlass_Worker() async {
 
+    showDialog(context: context, builder: (context)
+    {
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
+    });
+
+    List<UserData> glass_worker = [];
+
+    try {
+      // Query to get users with role 'WORKER'
+      QuerySnapshot usersSnapshot = await _firestore.collection('users').where(
+          'role', isEqualTo: 'WORKER').get();
+
+      // Iterate through each user document
+      for (DocumentSnapshot userDoc in usersSnapshot.docs) {
+        // Get the reference to the 'workers' subcollection for each user
+        CollectionReference workersCollectionRef =
+        userDoc.reference.collection('workers');
+
+        // Query the 'workers' subcollection to get the occupation data
+        QuerySnapshot workersSnapshot = await workersCollectionRef.get();
+
+        // Iterate through each document in the 'workers' subcollection
+        for (DocumentSnapshot workerDoc in workersSnapshot.docs) {
+          // Fetch additional data from the worker document
+          String fullName = workerDoc['fullName'];
+          String place = workerDoc['place'];
+          String city = workerDoc['city'];
+          String workExp = workerDoc['workExp'];
+          String mobileNo = workerDoc['mobileNo'];
+          String url = workerDoc['url'];
+          String state = workerDoc['state'];
+          String pin = workerDoc['pin'];
+
+          // Access the occupation data
+          List<dynamic> occupation = workerDoc['selectedOccupation'];
+
+          // Check if the occupation contains 'Tiles Fitting'
+          if (occupation.contains('Glass Worker')) {
+            // Create UserData object and add to the list
+            UserData userData = UserData(
+              userId: userDoc.id,
+              fullName: fullName,
+              place: place,
+              city: city,
+              workExp: workExp,
+              mobileNo: mobileNo,
+              url: url,
+              state: state,
+              pin: pin,
+              selectedOccupation: occupation,
+            );
+            glass_worker.add(userData);
+            // print('User ID: ${userDoc.id}, Occupation: $occupation ,Full Name: $name ,Mobile No.: $mobileNumber');
+          }
+        }
+      }
+    } catch (error) {
+      // Handle errors
+      Fluttertoast.showToast(msg:'Error fetching Glass Worker, check Internet!');
+    }
+
+    return glass_worker;
+  }
+
+  Future<List<UserData>> getWelder() async {
+
+    showDialog(context: context, builder: (context)
+    {
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
+    });
+
+    List<UserData> welder = [];
+
+    try {
+      // Query to get users with role 'WORKER'
+      QuerySnapshot usersSnapshot = await _firestore.collection('users').where(
+          'role', isEqualTo: 'WORKER').get();
+
+      // Iterate through each user document
+      for (DocumentSnapshot userDoc in usersSnapshot.docs) {
+        // Get the reference to the 'workers' subcollection for each user
+        CollectionReference workersCollectionRef =
+        userDoc.reference.collection('workers');
+
+        // Query the 'workers' subcollection to get the occupation data
+        QuerySnapshot workersSnapshot = await workersCollectionRef.get();
+
+        // Iterate through each document in the 'workers' subcollection
+        for (DocumentSnapshot workerDoc in workersSnapshot.docs) {
+          // Fetch additional data from the worker document
+          String fullName = workerDoc['fullName'];
+          String place = workerDoc['place'];
+          String city = workerDoc['city'];
+          String workExp = workerDoc['workExp'];
+          String mobileNo = workerDoc['mobileNo'];
+          String url = workerDoc['url'];
+          String state = workerDoc['state'];
+          String pin = workerDoc['pin'];
+
+          // Access the occupation data
+          List<dynamic> occupation = workerDoc['selectedOccupation'];
+
+          // Check if the occupation contains 'Tiles Fitting'
+          if (occupation.contains('Welder')) {
+            // Create UserData object and add to the list
+            UserData userData = UserData(
+              userId: userDoc.id,
+              fullName: fullName,
+              place: place,
+              city: city,
+              workExp: workExp,
+              mobileNo: mobileNo,
+              url: url,
+              state: state,
+              pin: pin,
+              selectedOccupation: occupation,
+            );
+            welder.add(userData);
+            // print('User ID: ${userDoc.id}, Occupation: $occupation ,Full Name: $name ,Mobile No.: $mobileNumber');
+          }
+        }
+      }
+    } catch (error) {
+      // Handle errors
+      Fluttertoast.showToast(msg:'Error fetching Welder, check Internet!');
+    }
+
+    return welder;
+  }
+
+  Future<List<UserData>> getAluminium_Worker() async {
+
+    showDialog(context: context, builder: (context)
+    {
+      return Center(
+        child: Container(
+          height: 100,
+          width: 390,
+          decoration: BoxDecoration(
+            color: const Color(0xff2b3d4f),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(30,0,0,0),
+                    child: CircularProgressIndicator(
+                      color: Color(0xff2b3d4f),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  RichText(
+                    text: const TextSpan(
+                      text: "Processing Data Please Wait...",
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
+    });
+
+    List<UserData> aluminium_worker = [];
+
+    try {
+      // Query to get users with role 'WORKER'
+      QuerySnapshot usersSnapshot = await _firestore.collection('users').where(
+          'role', isEqualTo: 'WORKER').get();
+
+      // Iterate through each user document
+      for (DocumentSnapshot userDoc in usersSnapshot.docs) {
+        // Get the reference to the 'workers' subcollection for each user
+        CollectionReference workersCollectionRef =
+        userDoc.reference.collection('workers');
+
+        // Query the 'workers' subcollection to get the occupation data
+        QuerySnapshot workersSnapshot = await workersCollectionRef.get();
+
+        // Iterate through each document in the 'workers' subcollection
+        for (DocumentSnapshot workerDoc in workersSnapshot.docs) {
+          // Fetch additional data from the worker document
+          String fullName = workerDoc['fullName'];
+          String place = workerDoc['place'];
+          String city = workerDoc['city'];
+          String workExp = workerDoc['workExp'];
+          String mobileNo = workerDoc['mobileNo'];
+          String url = workerDoc['url'];
+          String state = workerDoc['state'];
+          String pin = workerDoc['pin'];
+
+          // Access the occupation data
+          List<dynamic> occupation = workerDoc['selectedOccupation'];
+
+          // Check if the occupation contains 'Tiles Fitting'
+          if (occupation.contains('Aluminium Worker')) {
+            // Create UserData object and add to the list
+            UserData userData = UserData(
+              userId: userDoc.id,
+              fullName: fullName,
+              place: place,
+              city: city,
+              workExp: workExp,
+              mobileNo: mobileNo,
+              url: url,
+              state: state,
+              pin: pin,
+              selectedOccupation: occupation,
+            );
+            aluminium_worker.add(userData);
+            // print('User ID: ${userDoc.id}, Occupation: $occupation ,Full Name: $name ,Mobile No.: $mobileNumber');
+          }
+        }
+      }
+    } catch (error) {
+      // Handle errors
+      Fluttertoast.showToast(msg:'Error fetching Aluminium Worker, check Internet!');
+    }
+
+    return aluminium_worker;
+  }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1166,6 +1470,105 @@ class _SelectWorkers_ScreenShowState extends State<SelectWorkers_ScreenShow> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => TilesFitting_Result_ScreenShow(tiles_fitting: tiles_fitting)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/glass-worker.jpg'),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> glass_worker = await getGlass_Worker();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GlassWorker_Result_ScreenShow(glass_worker: glass_worker)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/welder.jpg'),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> welder = await getWelder();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Welder_Result_ScreenShow(welder: welder)));
+                      },
+                      splashColor: const Color(0xff95a6a7),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/aluminium-worker.jpg'),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        // color: Colors.grey.withOpacity(0.9),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async{
+                        // Fetch plumbers data
+                        List<UserData> aluminium_worker = await getAluminium_Worker();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AluminiumWorker_Result_ScreenShow(aluminium_worker: aluminium_worker)));
                       },
                       splashColor: const Color(0xff95a6a7),
                     ),
