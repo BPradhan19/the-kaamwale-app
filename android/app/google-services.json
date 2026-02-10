@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293493815555",
+    "project_id": "kaamwale-7554c",
+    "storage_bucket": "kaamwale-7554c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293493815555:android:ecad58cd55c9d61a765136",
+        "android_client_info": {
+          "package_name": "com.vrkahdevtech.thekaamwale"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
