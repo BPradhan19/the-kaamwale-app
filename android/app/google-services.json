@@ -1,29 +1,3 @@
-{
-  "project_info": {
-    "project_number": "293493815555",
-    "project_id": "kaamwale-7554c",
-    "storage_bucket": "kaamwale-7554c.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:293493815555:android:ecad58cd55c9d61a765136",
-        "android_client_info": {
-          "package_name": "com.vrkahdevtech.thekaamwale"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": ""
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    }
-  ],
-  "configuration_version": "1"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f2ec1f2cb6397126156bc5bcbb7b605d508772144dc8b680f9c0fbba25b81693
+size 667
